@@ -5,13 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
+import lombok.Builder;
 
 @Entity
 @Table(name = "Notificaciones")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notificaciones {
+@Builder
+public class Notificacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id_notificacion;
@@ -33,6 +35,7 @@ public class Notificaciones {
 
     private LocalDateTime fecha_creacion;
 
+    @Builder.Default
     private Boolean estado_leida = false;
 
     @PrePersist

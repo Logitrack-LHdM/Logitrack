@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Table(name = "Establecimientos")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Establecimiento {
 
     @Id

@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
+import lombok.Builder;
 
 @Entity
 @Table(name = "Historial_Estados")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Historial_Estados {
 
     @Id

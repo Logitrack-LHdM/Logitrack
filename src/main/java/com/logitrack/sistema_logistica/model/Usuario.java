@@ -5,12 +5,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 
 @Entity
 @Table(name = "Usuarios")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Usuario {
 
     @Id
@@ -27,6 +29,7 @@ public class Usuario {
     @Column(nullable = false, length = 50)
     private Rol_Usuario rol;
 
+    @Builder.Default
     @Column(columnDefinition = "boolean default true")
     private Boolean activo = true;
 }
