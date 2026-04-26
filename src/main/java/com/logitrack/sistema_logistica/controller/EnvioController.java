@@ -1,4 +1,4 @@
-package com.logitrack.sistema_logistica.controller;
+/*package com.logitrack.sistema_logistica.controller;
 
 import com.logitrack.sistema_logistica.dto.EnvioRequestDTO;
 import com.logitrack.sistema_logistica.model.Envio;
@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
+ 
 @RestController
 @RequestMapping("/api/envios")
 public class EnvioController {
@@ -68,4 +68,4 @@ public class EnvioController {
         envioRepository.deleteById(id);
         return ResponseEntity.ok("Envío con ID " + id + " eliminado correctamente.");
     }
-}
+}*/

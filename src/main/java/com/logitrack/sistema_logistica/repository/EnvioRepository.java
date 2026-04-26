@@ -1,11 +1,12 @@
-package com.logitrack.sistema_logistica.repository;
+/*package com.logitrack.sistema_logistica.repository;
 
 import com.logitrack.sistema_logistica.model.Envio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+
 @Repository
 public interface EnvioRepository extends JpaRepository<Envio, Long> {
     // Aca se pueden agregar métodos personalizados más adelante, 
     // como buscar envíos por estado o por destinatario.
-}
+}*/

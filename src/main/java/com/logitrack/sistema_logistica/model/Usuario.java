@@ -1,0 +1,32 @@
+package com.logitrack.sistema_logistica.model;
+
+import com.logitrack.sistema_logistica.model.enums.Rol_Usuario;
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+@Entity
+@Table(name = "Usuarios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id_usuario;
+
+    @Column(unique = true, nullable = false, length = 100)
+    private String username;
+
+    @Column(nullable = false, length = 255)
+    private String password_hash;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 50)
+    private Rol_Usuario rol;
+
+    @Column(columnDefinition = "boolean default true")
+    private Boolean activo = true;
+}

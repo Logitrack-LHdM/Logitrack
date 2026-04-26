@@ -1,20 +1,79 @@
 package com.logitrack.sistema_logistica.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.logitrack.sistema_logistica.model.enums.Estado_Envio;
+import com.logitrack.sistema_logistica.model.enums.Tipo_Grano;   
+import java.util.UUID;
+import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+import java.time.LocalDateTime;
 
-@Entity // Esto le dice a Spring: "Crea una tabla basada en esta clase"
-@Data   // Esto (de Lombok) crea los Getters y Setters automáticamente
+@Entity
+@Table(name = "Envios")
+@Data 
+@NoArgsConstructor 
+@AllArgsConstructor 
 public class Envio {
 
-    @Id // Indica que este atributo es la clave primaria (Primary Key) de la tabla
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Configura el ID para que sea autoincremental (la base de datos le suma 1 cada vez)
-    private Long id; // Identificador único del envío (usamos Long por capacidad de almacenamiento)
+    @Id 
+    @Column(name = "id_envio", length = 20) 
+    private String id_envio;
 
-    private String descripcion;
-    private String destino;
-    private String estado; // Ejemplo: "Pendiente", "En viaje", "Entregado"
+    @Column(name = "tracking_ctg", unique = true, nullable = false, length = 50)
+    private String tracking_ctg;
+
+    @Column(name = "cpe", unique = true, length = 50)
+    private String cpe;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_origen", referencedColumnName = "id_establecimiento")
+    private Establecimiento origen;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_destino", referencedColumnName = "id_establecimiento")
+    private Establecimiento destino;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_chofer", referencedColumnName = "id_chofer")
+    private Chofer_Detalle chofer;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "patente_camion", referencedColumnName = "patente")
+    private Camion camion;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_grano", nullable = false)
+    private Tipo_Grano tipo_grano;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "estado_actual", nullable = false)
+    private Estado_Envio estado_actual;
+
+    @Column(name = "prioridad_ia", length = 20)
+    private String prioridad_ia;
+
+    private Integer kg_origen;
+    
+    private Integer kg_destino;
+
+    @Column(name = "fecha_creacion", updatable = false)
+    private LocalDateTime fecha_creacion;
+
+    private LocalDateTime fecha_salida;
+    
+    private LocalDateTime fecha_llegada;
+    
+    private LocalDateTime fecha_estimada_llegada;
+
+    @PrePersist
+    protected void onCreate() {
+        this.fecha_creacion = LocalDateTime.now();
+
+        if (this.id_envio == null) {
+            String randomParte = UUID.randomUUID().toString().replace("-", "").substring(0, 6).toUpperCase();
+            this.id_envio = "LT-" + randomParte;
+    }
+    }
 }
+
