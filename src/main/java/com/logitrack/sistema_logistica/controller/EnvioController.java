@@ -16,26 +16,15 @@ import com.logitrack.sistema_logistica.repository.EnvioRepository;
 public class EnvioController {
 
     @Autowired
-    private EnvioService envioService;
-    
-    @Autowired
-    private EnvioRepository envioRepository;
+    private EnvioService envioService; // Llamamos al servicio, no al repositorio directamente
 
-    // GET para listar (siempre es útil tenerlo)
+    // Endpoint para listar todos los envíos
     @GetMapping
-    public List<Envio> listarEnvios() {
-        return envioRepository.findAll();
-    }
-
-    // POST para crear
-    @PostMapping
-    public ResponseEntity<?> crearEnvio(@RequestBody EnvioRequestDTO dto) {
-        try {
-            Envio envioCreado = envioService.crearNuevoEnvio(dto);
-            return new ResponseEntity<>(envioCreado, HttpStatus.CREATED);
-        } catch (RuntimeException e) {
-            // Si falla una validación (ej: camión no existe), devolvemos un 400 Bad Request
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<List<Envio>> listarTodos() {
+        // El controlador le pide la lista al Service
+        List<Envio> envios = envioService.obtenerTodos();
+        
+        // Retornamos la lista con un estado 200 OK
+        return ResponseEntity.ok(envios);
     }
 }
