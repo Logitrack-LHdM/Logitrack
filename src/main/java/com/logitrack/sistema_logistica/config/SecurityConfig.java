@@ -37,6 +37,7 @@ public class SecurityConfig {
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                  .requestMatchers("/api/auth/**").permitAll() 
+                 .requestMatchers("/api/envios/**").permitAll()
                  // Rutas públicas: login y registro                
                 .anyRequest().authenticated() 
                 // Todo lo demás requiere token válido
