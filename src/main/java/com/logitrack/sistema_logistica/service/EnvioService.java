@@ -1,5 +1,11 @@
 package com.logitrack.sistema_logistica.service;
 
+
+import com.logitrack.sistema_logistica.repository.EnvioRepository;
+
+
+
+import java.util.List;
 import com.logitrack.sistema_logistica.dto.EnvioRequestDTO;
 import com.logitrack.sistema_logistica.model.*;
 import com.logitrack.sistema_logistica.model.enums.Estado_Envio;
@@ -11,6 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class EnvioService {
 
+    @Autowired
+    private EnvioRepository envioRepository;
+
+    // Método para obtener todos los envíos de la base de datos
+    public List<Envio> obtenerTodos() {
+        return envioRepository.findAll();
     @Autowired private EnvioRepository envioRepository;
     @Autowired private EstablecimientoRepository establecimientoRepository;
     @Autowired private Chofer_DetalleRepository choferDetalleRepository;
