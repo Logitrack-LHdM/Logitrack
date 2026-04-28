@@ -12,7 +12,7 @@
         .bg-agro-gradient {
             background: linear-gradient(135deg, #1b4332 0%, #081c15 100%);
         }
-        
+
         /* Ajuste de estilo para la tabla */
         .table-custom-header th {
             background-color: #f8f9fa;
@@ -22,7 +22,7 @@
             letter-spacing: 0.5px;
             border-bottom: 2px solid #dee2e6;
         }
-        
+
         /* Transición suave para las filas de la tabla */
         tbody tr {
             transition: background-color 0.2s ease;
@@ -31,7 +31,7 @@
 </head>
 
 <body class="d-flex flex-column min-vh-100 bg-light">
-    
+
     <header>
         <nav class="navbar py-3 shadow-sm bg-agro-gradient">
             <div class="container">
@@ -39,7 +39,7 @@
                     <img src="../img/logo-white.png" alt="Logo" height="50">
                     <span class="fs-3 fw-bold tracking-tight d-none d-sm-block">LogiTrack Agro</span>
                 </a>
-        
+
                 <div class="d-flex align-items-center gap-3 gap-md-4">
                     <div class="text-light text-end d-none d-sm-block">
                         <span class="fw-bold" id="nombreUsuario">Cargando...</span>
@@ -59,7 +59,8 @@
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-10 col-xl-9">
 
-                    <a href="./menu.html" class="text-decoration-none text-success fw-semibold mb-4 d-inline-flex align-items-center gap-2">
+                    <a href="./menu.html"
+                        class="text-decoration-none text-success fw-semibold mb-4 d-inline-flex align-items-center gap-2">
                         <i class="bi bi-arrow-left-circle fs-5"></i> Volver al Panel
                     </a>
 
@@ -76,15 +77,22 @@
                             <form>
                                 <div class="row g-3 align-items-end ms-md-4">
                                     <div class="col-12 col-md-5">
-                                        <label class="form-label small fw-bold text-uppercase text-muted">Parámetro de búsqueda</label>
+                                        <label class="form-label small fw-bold text-uppercase text-muted">Parámetro de
+                                            búsqueda</label>
                                         <div class="input-group shadow-sm rounded-3">
-                                            <span class="input-group-text bg-light border-0"><i class="bi bi-upc-scan text-muted"></i></span>
-                                            <input type="text" class="form-control bg-light border-0 ps-0 focus-ring focus-ring-success py-2" id="searchInput" placeholder="ID Rastreo o Destino">
+                                            <span class="input-group-text bg-light border-0"><i
+                                                    class="bi bi-upc-scan text-muted"></i></span>
+                                            <input type="text"
+                                                class="form-control bg-light border-0 ps-0 focus-ring focus-ring-success py-2"
+                                                id="searchInput" placeholder="ID Rastreo o Destino">
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label class="form-label small fw-bold text-uppercase text-muted">Estado Operativo</label>
-                                        <select class="form-select bg-light border-0 shadow-sm focus-ring focus-ring-success py-2" id="stateSelect">
+                                        <label class="form-label small fw-bold text-uppercase text-muted">Estado
+                                            Operativo</label>
+                                        <select
+                                            class="form-select bg-light border-0 shadow-sm focus-ring focus-ring-success py-2"
+                                            id="stateSelect">
                                             <option selected>Cualquier Estado</option>
                                             <option>Pendiente</option>
                                             <option>En tránsito</option>
@@ -93,10 +101,13 @@
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-3 d-flex gap-2">
-                                        <button type="reset" class="btn btn-light border-0 shadow-sm py-2 px-3 text-muted w-50" title="Limpiar filtros">
+                                        <button type="reset"
+                                            class="btn btn-light border-0 shadow-sm py-2 px-3 text-muted w-50"
+                                            title="Limpiar filtros">
                                             <i class="bi bi-eraser-fill"></i>
                                         </button>
-                                        <button type="submit" class="btn btn-success shadow-sm py-2 w-100 fw-bold" style="background: linear-gradient(45deg, #1b4332, #2d6a4f); border: none;">
+                                        <button type="submit" class="btn btn-success shadow-sm py-2 w-100 fw-bold"
+                                            style="background: linear-gradient(45deg, #1b4332, #2d6a4f); border: none;">
                                             Buscar
                                         </button>
                                     </div>
@@ -114,7 +125,8 @@
                             <div class="py-4">
                                 <i class="bi bi-truck text-muted opacity-25" style="font-size: 4rem;"></i>
                                 <h6 class="fw-bold text-dark mt-3">Panel de Monitoreo</h6>
-                                <p class="text-muted mb-0 small">Ingresa los parámetros arriba para localizar un envío.</p>
+                                <p class="text-muted mb-0 small">Ingresa los parámetros arriba para localizar un envío.
+                                </p>
                             </div>
                         </div>
 
@@ -124,23 +136,26 @@
                                     <thead class="table-custom-header">
                                         <tr>
                                             <th class="ps-4 py-3">ID Rastreo</th>
-                                            <th class="py-3">Destino (Planta/Puerto)</th>
-                                            <th class="py-3 d-none d-md-table-cell">Ubicación Actual</th>
+                                            <th class="py-3">Empresa Cliente</th>
+                                            <th class="py-3">Carga / Grano</th>
                                             <th class="py-3">Estado</th>
                                             <th class="py-3 text-end pe-4">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody class="border-top-0">
-                                        </tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <div class="card border-0 shadow-sm rounded-4 p-5 text-center d-none bg-danger bg-opacity-10" id="noResultsTable">
+                        <div class="card border-0 shadow-sm rounded-4 p-5 text-center d-none bg-danger bg-opacity-10"
+                            id="noResultsTable">
                             <div class="py-4">
-                                <i class="bi bi-exclamation-triangle-fill text-danger opacity-75" style="font-size: 3rem;"></i>
+                                <i class="bi bi-exclamation-triangle-fill text-danger opacity-75"
+                                    style="font-size: 3rem;"></i>
                                 <h6 class="fw-bold text-danger mt-3">Sin coincidencias</h6>
-                                <p class="text-danger opacity-75 mb-0 small">No se encontraron remitos ni unidades con los criterios ingresados.</p>
+                                <p class="text-danger opacity-75 mb-0 small">No se encontraron remitos ni unidades con
+                                    los criterios ingresados.</p>
                             </div>
                         </div>
 
@@ -152,7 +167,8 @@
 
     <footer class="mt-auto bg-agro-gradient text-light py-4">
         <div class="container text-center">
-            <p class="mb-1 opacity-75 small fw-light">© 2026 LogiTrack Agro - Sistema Federal de Gestión de Logística y Distribución.</p>
+            <p class="mb-1 opacity-75 small fw-light">© 2026 LogiTrack Agro - Sistema Federal de Gestión de Logística y
+                Distribución.</p>
             <p class="mb-0 opacity-50 small fw-light">Todos los derechos reservados.</p>
         </div>
     </footer>
