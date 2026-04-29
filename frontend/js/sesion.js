@@ -11,7 +11,8 @@ const usuario = JSON.parse(usuarioJSON);
 
 // 2. Cargar datos en la Interfaz
 // Usamos usuario.username porque así lo devuelve tu LoginResponseDTO
-document.getElementById("nombreUsuario").textContent = usuario.username;
+const nombreUI = document.getElementById("nombreUsuario");
+if (nombreUI) nombreUI.textContent = usuario.username;
 
 const elRol = document.getElementById("rolUsuario");
 if (elRol) {
@@ -21,40 +22,22 @@ if (elRol) {
 }
 
 // 3. Lógica de Cierre de Sesión
-document.getElementById("btnCerrarSesion").addEventListener("click", () => {
-    // Es vital eliminar el token JWT además de los datos del usuario
-    sessionStorage.removeItem("usuarioLogueado");
-    sessionStorage.removeItem("token");
-    window.location.href = "./index.html";
-});
-
-// 4. Normalización de roles para validaciones
-// Spring Boot envía "SUPERVISOR", lo pasamos a minúsculas para comparar fácilmente
-const rolNormalizado = usuario.rol.toLowerCase().replace('role_', '');
-const esSupervisor = (rolNormalizado === "supervisor");
-
-// 5. Aplicar lógica de permisos en el DOM
-// Habilitar selects de estado y prioridad segun rol
-document.querySelectorAll(".edicion").forEach(e => {
-    if (!esSupervisor) {
-        e.disabled = true;
-    }
-});
-
-// Ocultar botones de edicion
-const divBotones = document.getElementById("botonesEdicion");
-if (divBotones) {
-    if (esSupervisor) {
-        divBotones.classList.remove("d-none");
-    } else {
-        divBotones.classList.add("d-none");
-    }
+const btnCerrar = document.getElementById("btnCerrarSesion");
+if (btnCerrar) {
+    btnCerrar.addEventListener("click", () => {
+        // Es vital eliminar el token JWT además de los datos del usuario
+        sessionStorage.removeItem("usuarioLogueado");
+        sessionStorage.removeItem("token");
+        window.location.href = "./index.html";
+    });
 }
 
-// Localizar la card de historial
+// 4. Mostrar panel de historial en el Menú (solo si es la pantalla menu.html)
+// Spring Boot envía "SUPERVISOR", lo pasamos a minúsculas para comparar fácilmente
+const rolNormalizado = usuario.rol.toLowerCase().replace('role_', '');
 const cardHistorial = document.getElementById("cardHistorial");
 if (cardHistorial) {
-    if (esSupervisor) {
+    if (rolNormalizado === "supervisor") {
         cardHistorial.classList.remove("d-none");
     } else {
         cardHistorial.classList.add("d-none");
