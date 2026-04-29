@@ -6,14 +6,24 @@ import com.logitrack.sistema_logistica.model.Envio;
 import com.logitrack.sistema_logistica.model.Historial_Estados;
 import com.logitrack.sistema_logistica.model.Usuario;
 import com.logitrack.sistema_logistica.service.EnvioService;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.logitrack.sistema_logistica.repository.EnvioRepository;
+import com.logitrack.sistema_logistica.repository.Historial_EstadosRepository;
 import com.logitrack.sistema_logistica.repository.UsuarioRepository;
 import org.springframework.security.core.Authentication;
 
@@ -28,7 +38,8 @@ public class EnvioController {
     private EnvioRepository envioRepository;
 
     @Autowired
-    private UsuarioRepository usuarioRepository; // Inyectar repositorio -> Necesario para no enviar el ID de usuario desde el
+    private UsuarioRepository usuarioRepository; // Inyectar repositorio -> Necesario para no enviar el ID de usuario
+                                                 // desde el
                                                  // frontend, sino que el EnvioController extraiga quién es el usuario
                                                  // directamente leyendo el Token JWT de la petición. El usuario es
                                                  // necesario para auditorias.
@@ -69,9 +80,11 @@ public class EnvioController {
     // }
     // }
 
-    // Nuevo POST para crear envío. Necesario para no enviar el ID de usuario desde el
+    // Nuevo POST para crear envío. Necesario para no enviar el ID de usuario desde
+    // el
     // frontend, sino que el EnvioController extraiga quién es el usuario
-    // directamente leyendo el Token JWT de la petición. El ID de usuario es necesario
+    // directamente leyendo el Token JWT de la petición. El ID de usuario es
+    // necesario
     // para auditorias.
     @PostMapping
     // Se agrega el parámetro Authentication.
@@ -112,4 +125,74 @@ public class EnvioController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
         }
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Lo siguiente se agregó como recomendación de Gemini para
+    // cumplir con las funciones que tiene el front.
+
+    // ─── DTO INTERNO PARA ACTUALIZACIONES ───
+    public static class UpdateEnvioDTO {
+        private String estado;
+        private String prioridad;
+
+        public String getEstado() {
+            return estado;
+        }
+
+        public void setEstado(String estado) {
+            this.estado = estado;
+        }
+
+        public String getPrioridad() {
+            return prioridad;
+        }
+
+        public void setPrioridad(String prioridad) {
+            this.prioridad = prioridad;
+        }
+    }
+
+    // ─── GET: BUSCAR POR ID INTERNO (LT-XXXXXX) ───
+    @GetMapping("/{idEnvio}")
+    public ResponseEntity<?> obtenerEnvioPorId(@PathVariable String idEnvio) {
+        try {
+            // Utilizamos el repository inyectado para buscar por su ID principal
+            Envio envio = envioRepository.findById(idEnvio)
+                    .orElseThrow(() -> new RuntimeException("El envío no existe en la base de datos"));
+            return ResponseEntity.ok(envio);
+        } catch (RuntimeException e) {
+            ErrorResponseDTO error = new ErrorResponseDTO();
+            error.setMessage(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+        }
+    }
+
+    // ─── PUT: ACTUALIZAR ESTADO Y PRIORIDAD ───
+    @PutMapping("/{idEnvio}")
+    public ResponseEntity<?> actualizarEnvio(
+            @PathVariable String idEnvio,
+            @RequestBody UpdateEnvioDTO dto,
+            Authentication authentication) {
+        try {
+            // 1. Identificar al usuario que hace el cambio
+            String username = authentication.getName();
+            Usuario usuario = usuarioRepository.findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("Usuario autenticado no válido"));
+
+            // 2. Aquí llamamos a tu Servicio.
+            // NOTA PARA TI: En tu EnvioService.java deberás crear este método.
+            // Ese método debe buscar el envío, comparar los estados, crear el registro en
+            // Historial_Estados con el 'usuario' capturado y guardar los cambios.
+            Envio envioActualizado = envioService.actualizarEstadoYPrioridad(
+                    idEnvio,
+                    dto.getEstado(),
+                    dto.getPrioridad(),
+                    usuario);
+
+            return ResponseEntity.ok(envioActualizado);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 }
